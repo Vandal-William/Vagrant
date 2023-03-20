@@ -1,0 +1,27 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Je définie une variable pour la ram et le cpu
+RAM = 1024
+CPU = 1
+# Je définie une variable pour l'adresse ip privée static
+IP = "10.0.0.10"
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "dirane/nginx"
+  # version de l'image 
+  config.vm.box_version = "1.0"
+  # je nome la vm
+  config.vm.hostname = "nginx"
+  # Je configure une adresse ip privé
+  config.vm.network "private_network", ip: IP
+  # je précise les dossiers a monter sur le serveur
+  config.vm.synced_folder "static-website/", "/usr/share/nginx/html/"
+  # J'ajoute le provider virtualbox et je lui met l'alias v
+  config.vm.provider "virtualbox" do |v|
+    # Je configure la ram de la virtualbox
+    v.memory = RAM
+    # Je configure le CPU de la virtualbox
+    v.cpus = CPU
+  end # je termine la configuration du virtualbox
+end

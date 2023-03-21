@@ -1,0 +1,18 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+    config.vm.box = "ubuntu/xenial64"
+    config.vm.network "private_network", ip: "10.0.0.10"
+    # ansible_local est utiliser comme provisioner
+    config.vm.provision "ansible_local" do |ans|
+      # j'indique le playbook a lancer  
+      ans.playbook = "nginx.yaml"
+      # j'autorise l'installation de ansible
+      ans.install = true
+      # je définie le mode d'installation de ansible (avec pip 3.5)
+      ans.install_mode = "pip"
+      # je précise la commande d'installation de pip 3.5 (cela est nécéssaire car l'image ubuntu/xenial64 utilise pip 3.5 )
+      ans.pip_install_cmd  = "curl https://bootstrap.pypa.io/pip/3.5/get-pip.py | sudo python"
+    end
+  end
